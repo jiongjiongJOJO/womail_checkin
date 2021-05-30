@@ -189,5 +189,5 @@ class WoMailCheckIn:
         return msg
 
 if __name__ == "__main__":
-
-	_check_item = json.loads(os.getenv('data'))	print(WoMailCheckIn(check_item=_check_item).main())
+	_check_item = json.loads(os.getenv('DATA'))
+	print(WoMailCheckIn(check_item=_check_item).main())
