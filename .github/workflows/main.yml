@@ -55,6 +55,7 @@ jobs:
       env:
 
         DATA: ${{ secrets.DATA }}
+        KEY: ${{ secrets.KEY }}
       run: |
 
         python main.py
