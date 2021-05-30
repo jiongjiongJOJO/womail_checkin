@@ -8,6 +8,20 @@ import re
 
 import requests
 
+
+def push(key,title,content):
+
+    url = 'http://pushplus.hxtrip.com/send'
+    data = {
+        "token": key,
+        "title": title,
+        "content": content
+    }
+    body = json.dumps(data).encode(encoding='utf-8')
+    headers = {'Content-Type': 'application/json'}
+    requests.post(url, data=body, headers=headers)
+
+
 class WoMailCheckIn:
 
     def __init__(self, check_item):
@@ -190,4 +204,7 @@ class WoMailCheckIn:
 
 if __name__ == "__main__":
 	_check_item = json.loads(os.getenv('DATA'))
-	print(WoMailCheckIn(check_item=_check_item).main())
+	key = os.getenv('KEY')
+	massage = WoMailCheckIn(check_item=_check_item).main()
+    	if('失败' in massage):
+		push(key,'一加社区签到失败',massage)
