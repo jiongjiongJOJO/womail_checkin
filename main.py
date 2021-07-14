@@ -75,7 +75,7 @@ class WoMailCheckIn:
                 response = requests.post("https://club.mail.wo.cn/ActivityWeb/activity-function/get-prize-index", data=data,
                                      cookies=cookies, headers=header)
                 msg += '自动抽奖：' + json.loads(response.text).get("description") + '\n'
-        except:
+        except Exception as e:
             print("自动抽奖:出错了",e)
         try:
             url = "https://nyan.mail.wo.cn/cn/sign/user/checkin.do?rand=0.913524814493383"
