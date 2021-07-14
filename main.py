@@ -19,8 +19,9 @@ def push(key,title,content):
 
 class WoMailCheckIn:
 
-    def __init__(self, check_item):
+    def __init__(self, check_item,lottery_url):
         self.check_item = check_item
+        self.lottery_url = lottery_url
     @staticmethod
 
     def login(womail_url):
@@ -42,7 +43,7 @@ class WoMailCheckIn:
             return None
     @staticmethod
 
-    def dotask(cookies):
+    def dotask(cookies,lottery_url):
         msg = ""
         headers = {
             "User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3868.400 QQBrowser/10.8.4394.400",
@@ -60,6 +61,23 @@ class WoMailCheckIn:
             print("沃邮箱获取用户信息失败", e)
             msg += "沃邮箱获取用户信息失败\n"
         try:
+            url = lottery_url
+            response = requests.get(url, allow_redirects=False)
+            cookies = {
+                'JSESSIONID': re.findall("JSESSIONID=(.*?);", response.headers["Set-Cookie"])[0],
+            }
+            header = {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'Referer': 'https://club.mail.wo.cn/ActivityWeb/scratchable/wap/template/index.html?activityId=387&resourceId=wo-wx'
+            }
+            data = '''{"activityId":"387"}'''
+            for i in range(2):
+                response = requests.post("https://club.mail.wo.cn/ActivityWeb/activity-function/get-prize-index", data=data,
+                                     cookies=cookies, headers=header)
+                msg += '自动抽奖：' + json.loads(response.text).get("description") + '\n'
+        except:
+            print("自动抽奖:出错了")
+        try:
             url = "https://nyan.mail.wo.cn/cn/sign/user/checkin.do?rand=0.913524814493383"
             res = requests.post(url=url, headers=headers).json()
             result = res.get("result")
@@ -72,6 +90,7 @@ class WoMailCheckIn:
         except Exception as e:
             print("沃邮箱签到错误", e)
             msg += "沃邮箱签到错误\n"
+
         try:
             url = "https://nyan.mail.wo.cn/cn/sign/user/doTask.do?rand=0.8776674762904109"
             data_params = {
@@ -104,7 +123,7 @@ class WoMailCheckIn:
         try:
             cookies = self.login(womail_url)
             if cookies:
-                msg = self.dotask(cookies)
+                msg = self.dotask(cookies,self.lottery_url)
             else:
                 msg = "登录失败"
         except Exception as e:
@@ -115,7 +134,8 @@ class WoMailCheckIn:
 if __name__ == "__main__":
     _check_item = json.loads(os.getenv('DATA'))
     key = os.getenv('KEY')
-    massage = WoMailCheckIn(check_item=_check_item).main()
+    _lottery_url = os.getenv('URL')
+    massage = WoMailCheckIn(check_item=_check_item,lottery_url = _lottery_url).main()
     if('失败' in massage):
         push(key,'一加社区签到失败',massage)
     print(massage)
