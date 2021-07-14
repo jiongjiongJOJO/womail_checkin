@@ -137,5 +137,5 @@ if __name__ == "__main__":
     _lottery_url = os.getenv('URL')
     massage = WoMailCheckIn(check_item=_check_item,lottery_url = _lottery_url).main()
     if('失败' in massage):
-        push(key,'一加社区签到失败',massage)
+        push(key,'沃邮箱 - 签到失败',massage)
     print(massage)
