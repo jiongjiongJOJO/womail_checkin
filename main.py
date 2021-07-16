@@ -77,6 +77,7 @@ class WoMailCheckIn:
                 msg += '自动抽奖：' + json.loads(response.text).get("description") + '\n'
         except Exception as e:
             print("自动抽奖:出错了",e)
+            msg += "自动抽奖：出错了\n"
         try:
             url = "https://nyan.mail.wo.cn/cn/sign/user/checkin.do?rand=0.913524814493383"
             res = requests.post(url=url, headers=headers).json()
