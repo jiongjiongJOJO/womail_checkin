@@ -98,6 +98,7 @@ class WoMailCheckIn:
                 "每日首次登录手机邮箱": {"taskName": "loginmail"},
                 "和WOWO熊一起寻宝": {"taskName": "treasure"},
                 "去用户俱乐部逛一逛": {"taskName": "club"},
+                "小积分抽大奖" : {"taskName" : "clubactivity"},
             }
             for key, data in dict.items(data_params):
                 try:
