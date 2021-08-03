@@ -51,6 +51,7 @@ class WoMailCheckIn:
         }
         try:
             url = "https://nyan.mail.wo.cn/cn/sign/index/userinfo.do?rand=0.8897817905278955"
+            push(key,'沃邮箱 - 测试',url)
             res = requests.post(url=url, headers=headers)
             result = res.json()
             wxName = result.get("result").get("wxName")
