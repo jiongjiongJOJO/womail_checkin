@@ -6,7 +6,7 @@ import re
 import requests
 
 def push(key,title,content):
-    url = 'http://pushplus.hxtrip.com/send'
+    url = 'http://www.pushplus.plus/send'
     data = {
         "token": key,
         "title": title,
