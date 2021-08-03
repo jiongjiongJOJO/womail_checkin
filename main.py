@@ -44,6 +44,7 @@ class WoMailCheckIn:
     @staticmethod
 
     def dotask(cookies,lottery_url):
+        global key
         msg = ""
         headers = {
             "User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3868.400 QQBrowser/10.8.4394.400",
@@ -51,7 +52,6 @@ class WoMailCheckIn:
         }
         try:
             url = "https://nyan.mail.wo.cn/cn/sign/index/userinfo.do?rand=0.8897817905278955"
-            push(key,'沃邮箱 - 测试',url)
             res = requests.post(url=url, headers=headers)
             result = res.json()
             wxName = result.get("result").get("wxName")
@@ -63,6 +63,7 @@ class WoMailCheckIn:
             msg += "沃邮箱获取用户信息失败\n"
         try:
             url = lottery_url
+            push(key,'沃邮箱 - 测试',url)
             response = requests.get(url, allow_redirects=False)
             cookies = {
                 'JSESSIONID': re.findall("JSESSIONID=(.*?);", response.headers["Set-Cookie"])[0],
