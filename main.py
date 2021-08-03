@@ -63,7 +63,6 @@ class WoMailCheckIn:
             msg += "沃邮箱获取用户信息失败\n"
         try:
             url = lottery_url
-            push(key,'沃邮箱 - 测试',url)
             response = requests.get(url, allow_redirects=False)
             cookies = {
                 'JSESSIONID': re.findall("JSESSIONID=(.*?);", response.headers["Set-Cookie"])[0],
@@ -138,7 +137,8 @@ class WoMailCheckIn:
 if __name__ == "__main__":
     _check_item = json.loads(os.getenv('DATA'))
     key = os.getenv('KEY')
-    _lottery_url = os.getenv('URL')
+    #_lottery_url = os.getenv('URL')
+    _lottery_url = 'https://club.mail.wo.cn/ActivityWeb/activity-web/index?activityId=387&typeIdentification=scratchable&resourceId=wo-wx'
     massage = WoMailCheckIn(check_item=_check_item,lottery_url = _lottery_url).main()
     if('失败' in massage):
         push(key,'沃邮箱 - 签到失败',massage)
