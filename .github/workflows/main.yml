@@ -56,7 +56,6 @@ jobs:
 
         DATA: ${{ secrets.DATA }}
         KEY: ${{ secrets.KEY }}
-        URL: ${{ secrets.URL }}
       run: |
 
         python main.py
