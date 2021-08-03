@@ -63,7 +63,6 @@ class WoMailCheckIn:
             msg += "沃邮箱获取用户信息失败\n"
         try:
             url = lottery_url
-            push(key,'沃邮箱 - 测试',url)
             response = requests.get(url, allow_redirects=False)
             cookies = {
                 'JSESSIONID': re.findall("JSESSIONID=(.*?);", response.headers["Set-Cookie"])[0],
